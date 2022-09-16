@@ -52,5 +52,6 @@ const getDivider = () => ({
   type: "divider",
 });
 
-module.exports = ({ t, index, reviewer, disableLinks, displayCharts }) =>
-  getUsername({ index, reviewer, displayCharts });
+module.exports = ({ t, index, reviewer, disableLinks, displayCharts }) => [
+  getUsername({ index, reviewer, displayCharts }),
+];
