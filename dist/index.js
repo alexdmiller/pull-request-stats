@@ -2419,12 +2419,17 @@ const getUsername = ({ index, reviewer, displayCharts }) => {
   const { stats, author } = reviewer;
   const { login, avatarUrl } = author;
 
-  const medal = displayCharts ? MEDALS[index] : null;
+  const medal = true ? MEDALS[index] : undefined;
   const suffix = medal ? ` ${medal}` : "";
 
   return {
     type: "context",
     elements: [
+      {
+        emoji: true,
+        type: "plain_text",
+        text: `${suffix} ${index}. `,
+      },
       {
         type: "image",
         image_url: avatarUrl,
@@ -2433,7 +2438,7 @@ const getUsername = ({ index, reviewer, displayCharts }) => {
       {
         emoji: true,
         type: "plain_text",
-        text: `${login}${suffix}: ${stats.totalReviews}`,
+        text: `${login}: ${stats.totalReviews}`,
       },
     ],
   };
@@ -15721,7 +15726,7 @@ run();
 /* 680 */
 /***/ (function(module) {
 
-module.exports = {"title":"Pull reviewers stats","icon":"https://s3.amazonaws.com/manuelmhtr.assets/flowwer/logo/logo-1024px.png","subtitle":{"one":"Stats of the last day for {{sources}}","other":"Stats of the last {{count}} days for {{sources}}"},"sources":{"separator":", ","fullList":"{{firsts}} and {{last}}","andOthers":"{{firsts}} and {{count}} others"},"columns":{"avatar":"","username":"User","timeToReview":"Time to review","totalReviews":"Total reviews","totalComments":"Total comments"}};
+module.exports = {"title":"Pull reviewers stats","icon":"https://s3.amazonaws.com/manuelmhtr.assets/flowwer/logo/logo-1024px.png","subtitle":{"one":"Stats of the last day for {{sources}}","other":"🎉 Congrats to the following reviewers for their awesome work the last {{count}} days! 🎉"},"sources":{"separator":", ","fullList":"{{firsts}} and {{last}}","andOthers":"{{firsts}} and {{count}} others"},"columns":{"avatar":"","username":"User","timeToReview":"Time to review","totalReviews":"Total reviews","totalComments":"Total comments"}};
 
 /***/ }),
 /* 681 */,
@@ -20758,30 +20763,22 @@ const { buildSources } = __webpack_require__(353);
 
 const getPRText = (pullRequest) => {
   const { url, number } = pullRequest || {};
-  if (!url || !number) return '';
+  if (!url || !number) return "";
   return ` (<${url}|#${number}>)`;
 };
 
-const buildGithubLink = ({ description, path }) => `<https://github.com/${path}|${description}>`;
+const buildGithubLink = ({ description, path }) =>
+  `<https://github.com/${path}|${description}>`;
 
-module.exports = ({
-  t,
-  org,
-  repos,
-  pullRequest,
-  periodLength,
-}) => {
+module.exports = ({ t, org, repos, pullRequest, periodLength }) => {
   const sources = buildSources({ buildGithubLink, org, repos });
   return [
     {
-      type: 'section',
+      type: "section",
       text: {
-        type: 'mrkdwn',
-        text: `${t('table.subtitle', { sources, count: periodLength })}${getPRText(pullRequest)}`,
+        type: "plain_text",
+        text: `🎉 Congrats to the following reviewers for their awesome work the last {{count}} days! 🎉`,
       },
-    },
-    {
-      type: 'divider',
     },
   ];
 };
@@ -20925,11 +20922,6 @@ module.exports = async ({
     core.debug(t("integrations.slack.logs.notConfigured"));
     return;
   }
-
-  // if (!isSponsor) {
-  //   core.error(t('integrations.slack.errors.notSponsor'));
-  //   return;
-  // }
 
   const send = (message) => {
     const params = {

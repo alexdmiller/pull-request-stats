@@ -10,12 +10,17 @@ const getUsername = ({ index, reviewer, displayCharts }) => {
   const { stats, author } = reviewer;
   const { login, avatarUrl } = author;
 
-  const medal = displayCharts ? MEDALS[index] : null;
+  const medal = true ? MEDALS[index] : null;
   const suffix = medal ? ` ${medal}` : "";
 
   return {
     type: "context",
     elements: [
+      {
+        emoji: true,
+        type: "plain_text",
+        text: `${suffix} ${index}. `,
+      },
       {
         type: "image",
         image_url: avatarUrl,
@@ -24,7 +29,7 @@ const getUsername = ({ index, reviewer, displayCharts }) => {
       {
         emoji: true,
         type: "plain_text",
-        text: `${login}${suffix}: ${stats.totalReviews}`,
+        text: `${login}: ${stats.totalReviews}`,
       },
     ],
   };
