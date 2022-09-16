@@ -20779,7 +20779,7 @@ module.exports = ({ t, org, repos, pullRequest, periodLength }) => {
     {
       type: "section",
       text: {
-        type: "plain_text",
+        type: "mrkdwn",
         text: `🎉 Congrats to the following reviewers for their awesome work the last ${periodLength} days on ${sources}! 🎉`,
       },
     },
