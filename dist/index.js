@@ -2426,7 +2426,7 @@ const getUsername = ({ index, reviewer, displayCharts }) => {
   const suffix = medal ? ` ${medal}` : "";
 
   return {
-    type: "section",
+    type: "context",
     elements: [
       {
         emoji: true,
