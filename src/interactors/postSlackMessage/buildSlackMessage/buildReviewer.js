@@ -1,9 +1,12 @@
 const { durationToString } = require("../../../utils");
 
 const MEDALS = [
-  ":first_place_medal:",
-  ":second_place_medal:",
-  ":third_place_medal:",
+  ":one:",
+  ":two:",
+  ":three:",
+  ":four:",
+  ":five:",
+  "",
 ]; /* 🥇🥈🥉 */
 
 const getUsername = ({ index, reviewer, displayCharts }) => {
@@ -14,12 +17,12 @@ const getUsername = ({ index, reviewer, displayCharts }) => {
   const suffix = medal ? ` ${medal}` : "";
 
   return {
-    type: "context",
+    type: "section",
     elements: [
       {
         emoji: true,
         type: "plain_text",
-        text: `${suffix} ${index}. `,
+        text: `${suffix} `,
       },
       {
         type: "image",
