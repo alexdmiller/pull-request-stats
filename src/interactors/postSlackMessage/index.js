@@ -22,11 +22,6 @@ module.exports = async ({
     return;
   }
 
-  // if (!isSponsor) {
-  //   core.error(t('integrations.slack.errors.notSponsor'));
-  //   return;
-  // }
-
   const send = (message) => {
     const params = {
       webhook,

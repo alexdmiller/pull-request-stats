@@ -3,7 +3,7 @@
   "icon": "https://s3.amazonaws.com/manuelmhtr.assets/flowwer/logo/logo-1024px.png",
   "subtitle": {
     "one": "Stats of the last day for {{sources}}",
-    "other": "Stats of the last {{count}} days for {{sources}}"
+    "other": "🎉 Congrats to the following reviewers for their awesome work the last {{count}} days! 🎉"
   },
   "sources": {
     "separator": ", ",

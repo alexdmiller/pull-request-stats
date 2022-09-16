@@ -1,31 +1,23 @@
-const { buildSources } = require('../../../utils');
+const { buildSources } = require("../../../utils");
 
 const getPRText = (pullRequest) => {
   const { url, number } = pullRequest || {};
-  if (!url || !number) return '';
+  if (!url || !number) return "";
   return ` (<${url}|#${number}>)`;
 };
 
-const buildGithubLink = ({ description, path }) => `<https://github.com/${path}|${description}>`;
+const buildGithubLink = ({ description, path }) =>
+  `<https://github.com/${path}|${description}>`;
 
-module.exports = ({
-  t,
-  org,
-  repos,
-  pullRequest,
-  periodLength,
-}) => {
+module.exports = ({ t, org, repos, pullRequest, periodLength }) => {
   const sources = buildSources({ buildGithubLink, org, repos });
   return [
     {
-      type: 'section',
+      type: "section",
       text: {
-        type: 'mrkdwn',
-        text: `${t('table.subtitle', { sources, count: periodLength })}${getPRText(pullRequest)}`,
+        type: "plain_text",
+        text: `🎉 Congrats to the following reviewers for their awesome work the last {{count}} days! 🎉`,
       },
-    },
-    {
-      type: 'divider',
     },
   ];
 };
