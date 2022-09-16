@@ -1,7 +1,7 @@
-const { t } = require('../../i18n');
-const { postToSlack } = require('../../fetchers');
-const buildSlackMessage = require('./buildSlackMessage');
-const splitInChunks = require('./splitInChunks');
+const { t } = require("../../i18n");
+const { postToSlack } = require("../../fetchers");
+const buildSlackMessage = require("./buildSlackMessage");
+const splitInChunks = require("./splitInChunks");
 
 module.exports = async ({
   org,
@@ -18,26 +18,28 @@ module.exports = async ({
   const { webhook, channel } = slack || {};
 
   if (!webhook || !channel) {
-    core.debug(t('integrations.slack.logs.notConfigured'));
+    core.debug(t("integrations.slack.logs.notConfigured"));
     return;
   }
 
-  if (!isSponsor) {
-    core.error(t('integrations.slack.errors.notSponsor'));
-    return;
-  }
+  // if (!isSponsor) {
+  //   core.error(t('integrations.slack.errors.notSponsor'));
+  //   return;
+  // }
 
   const send = (message) => {
     const params = {
       webhook,
       channel,
       message,
-      iconUrl: t('table.icon'),
-      username: t('table.title'),
+      iconUrl: t("table.icon"),
+      username: t("table.title"),
     };
-    core.debug(t('integrations.slack.logs.posting', {
-      params: JSON.stringify(params, null, 2),
-    }));
+    core.debug(
+      t("integrations.slack.logs.posting", {
+        params: JSON.stringify(params, null, 2),
+      })
+    );
     return postToSlack(params);
   };
 
@@ -55,10 +57,10 @@ module.exports = async ({
   await chunks.reduce(async (promise, message) => {
     await promise;
     return send(message).catch((error) => {
-      core.error(t('integrations.slack.errors.requestFailed', { error }));
+      core.error(t("integrations.slack.errors.requestFailed", { error }));
       throw error;
     });
   }, Promise.resolve());
 
-  core.debug(t('integrations.slack.logs.success'));
+  core.debug(t("integrations.slack.logs.success"));
 };
