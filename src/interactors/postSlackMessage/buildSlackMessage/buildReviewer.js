@@ -1,29 +1,30 @@
-const { durationToString } = require('../../../utils');
+const { durationToString } = require("../../../utils");
 
 const MEDALS = [
-  ':first_place_medal:',
-  ':second_place_medal:',
-  ':third_place_medal:',
+  ":first_place_medal:",
+  ":second_place_medal:",
+  ":third_place_medal:",
 ]; /* 🥇🥈🥉 */
 
 const getUsername = ({ index, reviewer, displayCharts }) => {
-  const { login, avatarUrl } = reviewer.author;
+  const { stats, author } = reviewer;
+  const { login, avatarUrl } = author;
 
   const medal = displayCharts ? MEDALS[index] : null;
-  const suffix = medal ? ` ${medal}` : '';
+  const suffix = medal ? ` ${medal}` : "";
 
   return {
-    type: 'context',
+    type: "context",
     elements: [
       {
-        type: 'image',
+        type: "image",
         image_url: avatarUrl,
         alt_text: login,
       },
       {
         emoji: true,
-        type: 'plain_text',
-        text: `${login}${suffix}`,
+        type: "plain_text",
+        text: `${login}${suffix}: ${stats.totalReviews}`,
       },
     ],
   };
@@ -37,36 +38,19 @@ const getStats = ({ t, reviewer, disableLinks }) => {
     : `<${urls.timeToReview}|${timeToReviewStr}>`;
 
   return {
-    type: 'section',
+    type: "section",
     fields: [
       {
-        type: 'mrkdwn',
-        text: `*${t('table.columns.totalReviews')}:* ${stats.totalReviews}`,
-      },
-      {
-        type: 'mrkdwn',
-        text: `*${t('table.columns.totalComments')}:* ${stats.totalComments}`,
-      },
-      {
-        type: 'mrkdwn',
-        text: `*${t('table.columns.timeToReview')}:* ${timeToReview}`,
+        type: "mrkdwn",
+        text: `*${t("table.columns.totalReviews")}:* ${stats.totalReviews}`,
       },
     ],
   };
 };
 
 const getDivider = () => ({
-  type: 'divider',
+  type: "divider",
 });
 
-module.exports = ({
-  t,
-  index,
-  reviewer,
-  disableLinks,
-  displayCharts,
-}) => [
-  getUsername({ index, reviewer, displayCharts }),
-  getStats({ t, reviewer, disableLinks }),
-  getDivider(),
-];
+module.exports = ({ t, index, reviewer, disableLinks, displayCharts }) =>
+  getUsername({ index, reviewer, displayCharts });

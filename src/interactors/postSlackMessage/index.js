@@ -43,6 +43,8 @@ module.exports = async ({
     return postToSlack(params);
   };
 
+  reviewers = reviewers.slice(0, 3);
+
   const fullMessage = buildSlackMessage({
     org,
     repos,
@@ -54,6 +56,7 @@ module.exports = async ({
   });
 
   const chunks = splitInChunks(fullMessage);
+
   await chunks.reduce(async (promise, message) => {
     await promise;
     return send(message).catch((error) => {
