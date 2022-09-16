@@ -38,7 +38,7 @@ module.exports = async ({
     return postToSlack(params);
   };
 
-  reviewers = reviewers.slice(0, 3);
+  reviewers = reviewers.slice(0, 5);
 
   const fullMessage = buildSlackMessage({
     org,
